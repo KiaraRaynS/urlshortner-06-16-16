@@ -15,10 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from appurl.views import ViewIndex, SignUpView
+from appurl.views import ViewIndex, SignUpView, ViewBookmarks, AddBookmark
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r"^$", ViewIndex.as_view(), name='index'),
-    url(r'^signup/$', SignUpView.as_view(), name='signup')
+    url(r'^signup/$', SignUpView.as_view(), name='signup'),
+    url(r'^userbookmarks', ViewBookmarks, name='viewbookmarks'),
+    url(r'makebookmark/$', AddBookmark.as_view(), name='addbookmark')
 ]
