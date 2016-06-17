@@ -10,6 +10,8 @@ class Bookmark(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField(null=True)
     created = models.DateTimeField(auto_now_add=True)
+    # make a foreignkey
+    user = models.ForeignKey(User)
 
     class Meta:
         ordering = ['-created']
@@ -17,4 +19,5 @@ class Bookmark(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    bookmarks = models.ManyToManyField('appurl.Bookmark')
+    # This is uneeded
+    # bookmarks = models.ManyToManyField('appurl.Bookmark')

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import View, CreateView, ListView
+from django.views.generic import View, CreateView, ListView, TemplateView
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponse
@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 class ViewIndex(View):
 
     def get(self, request):
-        return HttpResponse("Hello, world!")
+        return HttpResponse("Hello, world!", "Print")
 
 
 class SignUpView(CreateView):
@@ -22,10 +22,21 @@ class SignUpView(CreateView):
 
 
 @login_required
-class ViewBookmarks(ListView):
-    model = User
+class ViewBookmarks(TemplateView):
+    template_name = "bookmarks.html"
 
 
 class AddBookmark(CreateView):
     model = Bookmark
     fields = ['title', 'link', 'description']
+    success_url = '/'
+
+    def form_valid(self, form):
+        bookmark = form.save(commit=False)
+        bookmark.shortlink = 'createhashid'
+        bookmark.user = self.request.user
+        return super(AddBookmark, self).form_valid(form)
+
+
+class ViewProfile(TemplateView):
+    template_name = "profiletemp.html"
