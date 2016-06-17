@@ -1,10 +1,12 @@
 from django.shortcuts import render
+from hashids import Hashids
 from django.views.generic import View, CreateView, ListView, TemplateView
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponse
 from appurl.models import Bookmark
 from django.contrib.auth.decorators import login_required
+hashids = Hashids()
 
 # Create your views here.
 
@@ -33,7 +35,9 @@ class AddBookmark(CreateView):
 
     def form_valid(self, form):
         bookmark = form.save(commit=False)
-        bookmark.shortlink = 'createhashid'
+        hashstring = Hashids(salt=bookmark.link)
+        linkhash = hashstring.encode(123)
+        bookmark.shortlink = linkhash
         bookmark.user = self.request.user
         return super(AddBookmark, self).form_valid(form)
 
