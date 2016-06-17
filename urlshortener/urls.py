@@ -15,16 +15,17 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from appurl.views import ViewIndex, SignUpView, ViewBookmarks, AddBookmark, ViewProfile
+from appurl.views import ViewIndex, SignUpView, ViewBookmark, AddBookmark, ViewProfile, BookmarkInfo
 from django.contrib.auth.views import logout, login
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r"^$", ViewIndex.as_view(), name='index'),
     url(r'^signup/$', SignUpView.as_view(), name='signup'),
-    url(r'^accounts/userbookmarks', ViewBookmarks, name='viewbookmarks'),
+    url(r'^userbookmarks/', ViewBookmark.as_view(), name='viewbookmarks'),
     url(r'makebookmark/$', AddBookmark.as_view(), name='addbookmark'),
     url(r'^logout/$', logout, name='logout'),
     url(r'^login/$', login, name='login'),
     url(r'^accounts/profile/$', ViewProfile.as_view(), name='profile'),
+    url(r'^bm/(?P<shortlink>\w+)/$', BookmarkInfo.as_view())
 ]

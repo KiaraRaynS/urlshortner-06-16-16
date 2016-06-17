@@ -1,1 +1,9 @@
-<p>Hold</p>
+{% extends 'base.html' %}
+
+{% block content %}
+  {% for item in bookmark %}
+  <ul>
+    <li><a href="{{index}}/bm/{{ item.shortlink }}">{{ item.shortlink }}</a></li>
+  </ul>
+  {% endfor %}
+{% endblock %}
