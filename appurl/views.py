@@ -51,10 +51,20 @@ class ViewProfile(TemplateView):
     template_name = "profiletemp.html"
 
 
-class BookmarkInfo(View):
+class BookmarkInfo(TemplateView):
+    template_name = 'bookmarkinfo.html'
 
-    def get(self, args, **kwargs):
-        return HttpResponseRedirect('http://www.google.com')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        shortlink = self.kwargs.get('shortlink', None)
+        context['bookmark'] = Bookmark.objects.get(shortlink=shortlink)
+        unhash = hashids.decode(shortlink)
+        print(unhash)
+        # return HttpResponseRedirect('http://www.google.com')
+        return context
+
+    # def get(self, args, **kwargs):
+    #    return HttpResponseRedirect('www.google.com')
 
     """
     template_name = "bookmarkinfo.html"

@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 
+{% block htmltop %}
+<meta http-equiv="refresh" content="0; url={{ bookmark.link }}">
+{% endblock %}
+
 {% block content %}
-  <p>Page works</p>
-  {{ bookmark }}
+<h1>You are being redirected, please wait. </h1>
 {% endblock %}
