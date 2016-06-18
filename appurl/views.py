@@ -1,4 +1,5 @@
 from hashids import Hashids
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import View, CreateView, ListView, TemplateView, RedirectView, UpdateView, DeleteView
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
@@ -19,6 +20,33 @@ class SignUpView(CreateView):
     success_url = '/'
 
 
+class ViewProfile(TemplateView):
+    template_name = "profiletemp.html"
+
+
+class BookmarkArchive(ListView):
+    template_name = "bookmarkarchive.html"
+    model = Bookmark
+    paginated_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        bookmarks_list = Bookmark.objects.all()
+        paginator = Paginator(bookmarks_list, self.paginate_by)
+
+        page = self.request.Get.get('page')
+
+        try:
+            bookmarks = paginator.page(page)
+        except PageNotAnInteger:
+            bookmarks = paginator.page(1)
+        except EmptyPage:
+            bookmarks = paginator.page(paginator.num_pages)
+
+        context['bookmarks'] = bookmarks
+        return context
+
+
 class ViewBookmark(TemplateView):
     template_name = "bookmarks.html"
 
@@ -27,6 +55,9 @@ class ViewBookmark(TemplateView):
         context = super().get_context_data(**kwargs)
         context['bookmark'] = Bookmark.objects.filter(user=user)
         return context
+
+
+# Bookmark related Classes
 
 
 class AddBookmark(CreateView):
@@ -54,10 +85,6 @@ class DeleteBookmark(DeleteView):
     model = Bookmark
     success_url = '/'
     template_name = 'deletebookmark.html'
-
-
-class ViewProfile(TemplateView):
-    template_name = "profiletemp.html"
 
 
 class BookmarkInfo(TemplateView):
