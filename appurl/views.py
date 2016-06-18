@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 from hashids import Hashids
-from django.views.generic import View, CreateView, ListView, TemplateView, RedirectView
+from django.views.generic import View, CreateView, ListView, TemplateView, RedirectView, UpdateView
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponse, HttpResponseRedirect
@@ -11,10 +11,8 @@ hashids = Hashids()
 # Create your views here.
 
 
-class ViewIndex(View):
-
-    def get(self, request):
-        return HttpResponse("Hello, world!", "Print")
+class ViewIndex(TemplateView):
+    template_name = 'index.html'
 
 
 class SignUpView(CreateView):
@@ -45,6 +43,13 @@ class AddBookmark(CreateView):
         bookmark.shortlink = linkhash
         bookmark.user = self.request.user
         return super(AddBookmark, self).form_valid(form)
+
+
+class UpdateBookmark(UpdateView):
+    model = Bookmark
+    fields = ['title', 'link', 'description']
+    template_name = 'updatebookmark.html'
+    success_url = '/'
 
 
 class ViewProfile(TemplateView):

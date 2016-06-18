@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from appurl.views import ViewIndex, SignUpView, ViewBookmark, AddBookmark, ViewProfile, BookmarkInfo
+from appurl.views import ViewIndex, SignUpView, ViewBookmark, AddBookmark, ViewProfile, BookmarkInfo, UpdateBookmark
 from django.contrib.auth.views import logout, login
 
 urlpatterns = [
@@ -27,5 +27,6 @@ urlpatterns = [
     url(r'^logout/$', logout, name='logout'),
     url(r'^login/$', login, name='login'),
     url(r'^accounts/profile/$', ViewProfile.as_view(), name='profile'),
-    url(r'^bm/(?P<shortlink>\w+)/$', BookmarkInfo.as_view())
+    url(r'^(?P<shortlink>\w+)/$', BookmarkInfo.as_view()),
+    url(r'^update/(?P<pk>\w+)/$', UpdateBookmark.as_view(), name='update')
 ]

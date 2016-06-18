@@ -8,7 +8,7 @@ class Bookmark(models.Model):
     link = models.TextField()
     shortlink = models.CharField(max_length=50)
     title = models.CharField(max_length=50)
-    description = models.TextField(null=True)
+    description = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=True)
     # make a foreignkey
     user = models.ForeignKey(User)
