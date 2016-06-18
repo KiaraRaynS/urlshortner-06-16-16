@@ -1,7 +1,5 @@
-from django.shortcuts import render
-from django.shortcuts import redirect
 from hashids import Hashids
-from django.views.generic import View, CreateView, ListView, TemplateView, RedirectView, UpdateView
+from django.views.generic import View, CreateView, ListView, TemplateView, RedirectView, UpdateView, DeleteView
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponse, HttpResponseRedirect
@@ -50,6 +48,12 @@ class UpdateBookmark(UpdateView):
     fields = ['title', 'link', 'description']
     template_name = 'updatebookmark.html'
     success_url = '/'
+
+
+class DeleteBookmark(DeleteView):
+    model = Bookmark
+    success_url = '/'
+    template_name = 'deletebookmark.html'
 
 
 class ViewProfile(TemplateView):
