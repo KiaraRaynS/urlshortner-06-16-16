@@ -1,11 +1,11 @@
 from django.shortcuts import render
+from django.shortcuts import redirect
 from hashids import Hashids
-from django.views.generic import View, CreateView, ListView, TemplateView
+from django.views.generic import View, CreateView, ListView, TemplateView, RedirectView
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from appurl.models import Bookmark
-from django.contrib.auth.decorators import login_required
 hashids = Hashids()
 
 # Create your views here.
@@ -51,14 +51,28 @@ class ViewProfile(TemplateView):
     template_name = "profiletemp.html"
 
 
-class BookmarkInfo(TemplateView):
+class BookmarkInfo(View):
+
+    def get(self, args, **kwargs):
+        return HttpResponseRedirect('http://www.google.com')
+
+    """
     template_name = "bookmarkinfo.html"
 
+    permanent = False
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
         shortlink = self.kwargs.get('shortlink', None)
-        print(shortlink)
-        print(Bookmark.objects.all().values("shortlink"))
         context['bookmark'] = Bookmark.objects.get(shortlink=shortlink)
-        return context
+        bookmark = Bookmark.objects.get(shortlink=shortlink)
+        return redirect('www.google.com')
+    # def get_redirect_view(self, request, args, **kwargs):
+        # context = super().get_context_data(**kwargs)
+        # shortlink = self.kwargs.get('shortlink', None)
+        # bookmarkinfo = Bookmark.objects.get(shortlink=shortlink)
+        # dehash = hashids.decode(shortlink)
+        # url = deshaed url
+        # redirect_to = dehash
+        # return(redirect_to)
+        """
