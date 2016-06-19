@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from appurl.views import ViewIndex, SignUpView, ViewBookmark, AddBookmark, ViewProfile, BookmarkInfo, UpdateBookmark, DeleteBookmark, BookmarkArchive
+from appurl.views import ViewIndex, SignUpView, ViewBookmark, AddBookmark, ViewProfile, BookmarkInfo, UpdateBookmark, DeleteBookmark, PastEntryList
 from django.contrib.auth.views import logout, login
 
 urlpatterns = [
@@ -23,12 +23,12 @@ urlpatterns = [
     url(r"^$", ViewIndex.as_view(), name='index'),
     url(r'^signup/$', SignUpView.as_view(), name='signup'),
     url(r'^userbookmarks/', ViewBookmark.as_view(), name='viewbookmarks'),
-    url(r'makebookmark/$', AddBookmark.as_view(), name='addbookmark'),
+    url(r'^makebookmark/$', AddBookmark.as_view(), name='addbookmark'),
     url(r'^logout/$', logout, name='logout'),
     url(r'^login/$', login, name='login'),
     url(r'^accounts/profile/$', ViewProfile.as_view(), name='profile'),
     url(r'^(?P<shortlink>\w+)/$', BookmarkInfo.as_view()),
     url(r'^update/(?P<pk>\w+)/$', UpdateBookmark.as_view(), name='update'),
     url(r'^delete/(?P<pk>\w+)/$', DeleteBookmark.as_view(), name='delete'),
-    url(r'^bookmarksarchive/$', BookmarkArchive.as_view(), name='bookmarkarchive')
+    url(r'^pastentries/$', PastEntryList, name='past')
 ]
