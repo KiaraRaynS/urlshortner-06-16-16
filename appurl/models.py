@@ -21,3 +21,10 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     # This is uneeded
     # bookmarks = models.ManyToManyField('appurl.Bookmark')
+
+
+class ViewCount(models.Model):
+    date = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, blank=True)
+    bookmark = models.ForeignKey(Bookmark)
+    view = models.IntegerField()

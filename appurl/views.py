@@ -2,8 +2,11 @@ from hashids import Hashids
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import View, CreateView, ListView, TemplateView, RedirectView, UpdateView, DeleteView
 from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
-from appurl.models import Bookmark
+from appurl.models import Bookmark, ViewCount
+from django.http import HttpResponse
+
 hashids = Hashids()
 
 # Create your views here.
@@ -63,8 +66,17 @@ class DeleteBookmark(DeleteView):
     template_name = 'deletebookmark.html'
 
 
-class BookmarkInfo(TemplateView):
+class AddViewCount(CreateView):
     template_name = 'bookmarkinfo.html'
+    model = ViewCount
+    fields = []
+
+    def form_valid(self, form):
+        viewcount = form.save(commit=False)
+        viewcount.user = self.request.user
+        viewcount.view = 1
+        viewcount.bookmark = self.request.bookmark
+        return super(AddViewCount, self).form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -72,11 +84,10 @@ class BookmarkInfo(TemplateView):
         context['bookmark'] = Bookmark.objects.get(shortlink=shortlink)
         unhash = hashids.decode(shortlink)
         print(unhash)
-        # return HttpResponseRedirect('http://www.google.com')
         return context
 
-    # def get(self, args, **kwargs):
-    #    return HttpResponseRedirect('www.google.com')
+# class BookmarkInfo(TemplateView):
+#    template_name = 'bookmarkinfo.html'
 
 
 class PastEntryList(ListView):
