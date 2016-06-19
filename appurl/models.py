@@ -13,6 +13,7 @@ class Bookmark(models.Model):
     # make a foreignkey
     user = models.ForeignKey(User)
     view = models.IntegerField(default=0)
+    public = models.BooleanField(default=True)
 
     class Meta:
         ordering = ['-created']

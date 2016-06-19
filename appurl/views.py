@@ -16,7 +16,7 @@ hashids = Hashids()
 class ViewIndex(ListView):
     template_name = 'index.html'
     model = Bookmark
-    paginate_by = 2
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -50,7 +50,7 @@ class ViewBookmark(TemplateView):
 
 class AddBookmark(CreateView):
     model = Bookmark
-    fields = ['title', 'link', 'description']
+    fields = ['title', 'link', 'description', 'public']
     success_url = '/'
 
     def form_valid(self, form):
@@ -64,7 +64,7 @@ class AddBookmark(CreateView):
 
 class UpdateBookmark(UpdateView):
     model = Bookmark
-    fields = ['title', 'link', 'description']
+    fields = ['title', 'link', 'description', 'public']
     template_name = 'updatebookmark.html'
     success_url = '/'
 

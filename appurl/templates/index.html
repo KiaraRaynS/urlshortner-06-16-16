@@ -4,10 +4,14 @@
 {% if bookmark_list  %}
   <table id="bookmarks">
     {% for bookmark in bookmark_list %}
+      {% if bookmark.public %}
       <tr>
+        <td>{{ bookmark.title }}</td>
         <td><a href="{{index}}/{{ bookmark.shortlink }}">{{ bookmark.shortlink }}</a></td>
+        <td>{{ bookmark.description }}</td>
         <td>{{ bookmark.user }}</td>
       </tr>
+      {% endif %}
     {% endfor %}
   </table>
   {% if is_paginated %}
