@@ -6,7 +6,6 @@
 </head>
 <body {% block bodytag %}{% endblock%}>
   <a href="{% url 'index' %}">Index</a>
-  <a href="{% url 'past' %}">Past</a>
   {% if request.user.is_authenticated %}
   <!-- If logged in -->
     <a href="{% url 'viewbookmarks' %}">View Bookmarks</a>

@@ -15,8 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from appurl.views import ViewIndex, SignUpView, ViewBookmark, AddBookmark, ViewProfile, UpdateBookmark, DeleteBookmark, AddViewCount
+from appurl.views import SignUpView, ViewBookmark, AddBookmark, ViewProfile, UpdateBookmark, DeleteBookmark, AddViewCount, ViewIndex
 from django.contrib.auth.views import logout, login
+# ViewIndex
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),

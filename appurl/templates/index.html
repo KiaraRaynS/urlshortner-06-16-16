@@ -5,24 +5,24 @@
   <table id="bookmarks">
     {% for bookmark in bookmark_list %}
       <tr>
-        <td>{{ bookmark.shortlink }}</td>
+        <td><a href="{{index}}/{{ bookmark.shortlink }}">{{ bookmark.shortlink }}</a></td>
         <td>{{ bookmark.user }}</td>
-      </td>
+      </tr>
     {% endfor %}
   </table>
   {% if is_paginated %}
   <div class='pagination'>
       <span class='step-links'>
           {% if bookmark.has_previous %}
-          <a href="?page={{ bookmark.previous_page_number }}">Previous</a>
+          <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
           {% endif %}
 
           <span class="current">
-            page {{ bookmark.number }} of {{ paginator.num_pages }}.
+            <p>page {{ page_obj.number }} of {{ paginator.num_pages }}</p>
           </span>
 
           {% if bookmark.has_next %}
-          <a href="?page={{ bookmark.next_page_number }}">Next</a>
+          <a href="?page={{ page_obj.next_page_number }}">Next</a>
           {% endif %}
       </span>
     </div>

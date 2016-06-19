@@ -1,7 +1,7 @@
 from hashids import Hashids
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.views.generic import  CreateView, ListView, TemplateView, RedirectView, UpdateView, DeleteView
+from django.views.generic import CreateView, ListView, TemplateView, RedirectView, UpdateView, DeleteView
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from appurl.models import Bookmark, ViewCount
