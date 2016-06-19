@@ -15,14 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from appurl.views import ViewIndex, SignUpView, ViewBookmark, AddBookmark, ViewProfile, UpdateBookmark, DeleteBookmark, PastEntryList, AddViewCount
+from appurl.views import ViewIndex, SignUpView, ViewBookmark, AddBookmark, ViewProfile, UpdateBookmark, DeleteBookmark, AddViewCount
 from django.contrib.auth.views import logout, login
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r"^$", ViewIndex.as_view(), name='index'),
+    url(r'^$', ViewIndex.as_view(), name='index'),
     url(r'^signup/$', SignUpView.as_view(), name='signup'),
-    url(r'^userbookmarks/', ViewBookmark.as_view(), name='viewbookmarks'),
+    url(r'^userbookmarks/$', ViewBookmark.as_view(), name='viewbookmarks'),
     url(r'^makebookmark/$', AddBookmark.as_view(), name='addbookmark'),
     url(r'^logout/$', logout, name='logout'),
     url(r'^login/$', login, name='login'),
@@ -30,5 +30,4 @@ urlpatterns = [
     url(r'^(?P<shortlink>\w+)/$', AddViewCount.as_view(), name='redirect'),
     url(r'^update/(?P<pk>\w+)/$', UpdateBookmark.as_view(), name='update'),
     url(r'^delete/(?P<pk>\w+)/$', DeleteBookmark.as_view(), name='delete'),
-    url(r'^pastentries/$', PastEntryList, name='past')
 ]

@@ -1,12 +1,11 @@
 from hashids import Hashids
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.views.generic import View, CreateView, ListView, TemplateView, RedirectView, UpdateView, DeleteView
+from django.views.generic import  CreateView, ListView, TemplateView, RedirectView, UpdateView, DeleteView
 from django.contrib.auth.models import User
-from django.shortcuts import get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from appurl.models import Bookmark, ViewCount
-from django.http import HttpResponse
+
 import datetime
 
 hashids = Hashids()
@@ -14,8 +13,16 @@ hashids = Hashids()
 # Create your views here.
 
 
-class ViewIndex(TemplateView):
+class ViewIndex(ListView):
     template_name = 'index.html'
+    model = Bookmark
+    paginate_by = 2
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        bookmark = Bookmark.objects.all()
+        context['bookmark'] = bookmark
+        return context
 
 
 class SignUpView(CreateView):
@@ -84,23 +91,4 @@ class AddViewCount(RedirectView):
 #    template_name = 'bookmarkinfo.html'
 
 
-class PastEntryList(ListView):
-    template_name = "pastlist.html"
-    model = Bookmark
-    paginated_by = 10
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        bookmarks_list = Bookmark.objects.all()
-        paginator = Paginator(bookmarks_list, self.paginate_by)
-        page = self.request.Get.get('page')
-
-        try:
-            bookmarks = paginator.page(page)
-        except PageNotAnInteger:
-            bookmarks = paginator.page(1)
-        except EmptyPage:
-            bookmarks = paginator.page(paginator.num_pages)
-
-        context['bookmark'] = bookmarks
-        return context
+# class PastEntryList(ListView):
