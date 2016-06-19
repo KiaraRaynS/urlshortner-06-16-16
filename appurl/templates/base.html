@@ -4,7 +4,7 @@
   {% block htmltop%}
   {% endblock %}
 </head>
-<body>
+<body {% block bodytag %}{% endblock%}>
   <a href="{% url 'index' %}">Index</a>
   <a href="{% url 'past' %}">Past</a>
   {% if request.user.is_authenticated %}

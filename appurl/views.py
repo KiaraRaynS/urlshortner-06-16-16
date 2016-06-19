@@ -1,4 +1,5 @@
 from hashids import Hashids
+
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import View, CreateView, ListView, TemplateView, RedirectView, UpdateView, DeleteView
 from django.contrib.auth.models import User
@@ -6,6 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from appurl.models import Bookmark, ViewCount
 from django.http import HttpResponse
+import datetime
 
 hashids = Hashids()
 
@@ -66,25 +68,17 @@ class DeleteBookmark(DeleteView):
     template_name = 'deletebookmark.html'
 
 
-class AddViewCount(CreateView):
+class AddViewCount(RedirectView):
     template_name = 'bookmarkinfo.html'
-    model = ViewCount
-    fields = []
 
-    def form_valid(self, form):
-        viewcount = form.save(commit=False)
-        viewcount.user = self.request.user
-        viewcount.view = 1
-        viewcount.bookmark = self.request.bookmark
-        return super(AddViewCount, self).form_valid(form)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+    def get(self, request, *args,  **kwargs):
         shortlink = self.kwargs.get('shortlink', None)
-        context['bookmark'] = Bookmark.objects.get(shortlink=shortlink)
-        unhash = hashids.decode(shortlink)
-        print(unhash)
-        return context
+        bookmark = Bookmark.objects.get(shortlink=shortlink)
+        self.url = bookmark.link
+        bookmark.view += 1
+        bookmark.save()
+        ViewCount.objects.create(bookmark=bookmark, date=datetime.datetime.now())
+        return super(AddViewCount, self).get(request, *args, **kwargs)
 
 # class BookmarkInfo(TemplateView):
 #    template_name = 'bookmarkinfo.html'

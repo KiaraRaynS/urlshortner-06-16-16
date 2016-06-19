@@ -3,7 +3,7 @@
 {% block content %}
   {% for item in bookmark %}
   <ul>
-    <li><a href="{{index}}/{{ item.shortlink }}">{{ item.shortlink }}</a></li>
+    <li><a href="{% url 'redirect' item.shortlink %}">{{ item.shortlink }}</a></li>
     <li>Created: {{ item.created }}</li>
     <li>Description: {{ item.description }}</li>
     <li><a href="{{index}}/update/{{ item.id }}">Update</a></li>

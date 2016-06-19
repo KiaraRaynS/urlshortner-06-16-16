@@ -12,6 +12,7 @@ class Bookmark(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     # make a foreignkey
     user = models.ForeignKey(User)
+    view = models.IntegerField(default=0)
 
     class Meta:
         ordering = ['-created']
@@ -25,6 +26,4 @@ class Profile(models.Model):
 
 class ViewCount(models.Model):
     date = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(User, blank=True)
     bookmark = models.ForeignKey(Bookmark)
-    view = models.IntegerField()

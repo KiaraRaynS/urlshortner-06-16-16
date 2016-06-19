@@ -27,7 +27,7 @@ urlpatterns = [
     url(r'^logout/$', logout, name='logout'),
     url(r'^login/$', login, name='login'),
     url(r'^accounts/profile/$', ViewProfile.as_view(), name='profile'),
-    url(r'^(?P<shortlink>\w+)/$', AddViewCount.as_view()),
+    url(r'^(?P<shortlink>\w+)/$', AddViewCount.as_view(), name='redirect'),
     url(r'^update/(?P<pk>\w+)/$', UpdateBookmark.as_view(), name='update'),
     url(r'^delete/(?P<pk>\w+)/$', DeleteBookmark.as_view(), name='delete'),
     url(r'^pastentries/$', PastEntryList, name='past')
