@@ -3,9 +3,11 @@
 {% block content %}
 
   <div class='pagetitle'>
-    <h1>{{ user }} bookmarks</h1>
+    <h1>Bookmarks</h1>
   </div>
   {% for item in bookmark %}
+   {% if item.public %}
+   <!-- except if request.user == item.user-->
   <ul>
     <li><a href="{% url 'redirect' item.shortlink %}">{{ item.shortlink }}</a></li>
     <li>Created: {{ item.created }}</li>
@@ -17,6 +19,7 @@
         <hr>
       {% endif %}
       {% endif %}
+   {% endif %}
   </ul>
   {% endfor %}
 {% endblock %}
