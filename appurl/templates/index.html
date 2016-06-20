@@ -1,15 +1,32 @@
 {% extends 'base.html' %}
 
+{% block htmltop %}
+  <style>
+table, th, td{
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 10px;
+}
+  </style>
+{% endblock %}
 {% block content %}
 {% if bookmark_list  %}
-  <table id="bookmarks">
+  <table id="bookmarks" style='width100%'>
+    <tr>
+      <td class='bookmarkitem'><b>Title</b></td>
+      <td class='bookmarkitem'> <b>Link</b></td>
+      <td class='bookmarkitem'> <b>Description</b></td>
+      <td class='bookmarkitem'> <b>User</b></td>
+    </tr>
     {% for bookmark in bookmark_list %}
       {% if bookmark.public %}
       <tr>
-        <td>{{ bookmark.title }}</td>
-        <td><a href="{{index}}/{{ bookmark.shortlink }}">{{ bookmark.shortlink }}</a></td>
-        <td>{{ bookmark.description }}</td>
-        <td>{{ bookmark.user }}</td>
+        <td class='bookmarkitem'>{{ bookmark.title }}</td>
+        <td class='bookmarkitem'><a href="{{index}}/{{ bookmark.shortlink }}">{{ bookmark.shortlink }}</a></td>
+        <td class='bookmarkitem'>{{ bookmark.description }}</td>
+        <td class='bookmarkitem'>{{ bookmark.user }}</td>
       </tr>
       {% endif %}
     {% endfor %}
@@ -17,7 +34,7 @@
   {% if is_paginated %}
   <div class='pagination'>
       <span class='step-links'>
-          {% if bookmark.has_previous %}
+          {% if page_obj.has_previous %}
           <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
           {% endif %}
 
@@ -25,7 +42,7 @@
             <p>page {{ page_obj.number }} of {{ paginator.num_pages }}</p>
           </span>
 
-          {% if bookmark.has_next %}
+          {% if page_obj.has_next %}
           <a href="?page={{ page_obj.next_page_number }}">Next</a>
           {% endif %}
       </span>

@@ -16,7 +16,7 @@ hashids = Hashids()
 class ViewIndex(ListView):
     template_name = 'index.html'
     model = Bookmark
-    paginate_by = 10
+    paginate_by = 5
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -40,6 +40,7 @@ class ViewBookmark(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        current_user = self.request.user
         user_id = self.kwargs['pk']
         user = User.objects.get(username=user_id)
         context['bookmark'] = Bookmark.objects.filter(user=user)

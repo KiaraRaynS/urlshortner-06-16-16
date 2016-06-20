@@ -1,13 +1,22 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+  <div class='pagetitle'>
+    <h1>{{ user }} bookmarks</h1>
+  </div>
   {% for item in bookmark %}
   <ul>
     <li><a href="{% url 'redirect' item.shortlink %}">{{ item.shortlink }}</a></li>
     <li>Created: {{ item.created }}</li>
     <li>Description: {{ item.description }}</li>
-    <li><a href="{{index}}/update/{{ item.id }}">Update</a></li>
-    <li><a href="{{index}}/delete/{{ item.id }}">Delete</a></li>
+      {% if request.user.is_authenticated %}
+      {% if request.user == item.user %}
+        <li><a href="{{index}}/update/{{ item.id }}">Update</a></li>
+        <li><a href="{{index}}/delete/{{ item.id }}">Delete</a></li>
+        <hr>
+      {% endif %}
+      {% endif %}
   </ul>
   {% endfor %}
 {% endblock %}

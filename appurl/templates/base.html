@@ -1,27 +1,34 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
+<div class='bodydiv'>
 <head>
-  {% block htmltop%}
+  {% block htmltop %}
   {% endblock %}
   <link rel='stylesheet' href="{% static 'appurl/css/css.css' %}">
   <link rel='stylesheet' href="{% static 'appurl/bootstrap.css'%}">
 </head>
 <body {% block bodytag %}{% endblock%}>
-  <a href="{% url 'index' %}">Index</a>
-  {% if request.user.is_authenticated %}
-  <!-- If logged in -->
-  <a href="{% url 'index' %}yourbookmarks/{{ user }}">View Your Bookmarks</a>
-    <a href="{% url 'addbookmark' %}">Create new Bookmark</a>
-    <a href="{% url 'logout' %}">Logout</a>
-  {% else  %}
-  <!-- If not logged in -->
-    <a href="{% url 'signup' %}">Sign up</a>
-    <a href="{% url 'login' %}">Login</a>
-  {% endif %}
+  <ul class="nav nav-tabs">
+        <li role="presentation"><a href="{% url 'index' %}">Index</a></li>
+        <li role="presentation"><a href="{% url 'addbookmark' %}">Create Bookmark</a></li>
+      {% if request.user.is_authenticated %}
+      <!-- If user logged in -->
+        <li role="presentation"><a href="{% url 'index' %}yourbookmarks/{{ user }}">Your Bookmarks</a></li>
+        <li role="presentation"><a href="{% url 'logout' %}">Logout</a></li>
+      {% else %}
+      <!-- If not logged in -->
+        <li role="presentation"><a href="{% url 'signup' %}">Sign Up</a></li>
+        <li role="presentation"><a href="{% url 'login' %}">Login</a></li>
+      {% endif %}
+        </ul>
   <div class='container'>
   {% block content %}
+  <div class='pagetitle'>
+  </div>
   {% endblock %}
+</div>
+</div>
 </div>
 </body>
 </html>
