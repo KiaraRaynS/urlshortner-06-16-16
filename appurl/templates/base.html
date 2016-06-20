@@ -1,14 +1,17 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   {% block htmltop%}
   {% endblock %}
+  <link rel='stylesheet' href="{% static 'appurl/css/css.css' %}">
+  <link rel='stylesheet' href="{% static 'appurl/bootstrap.css'%}">
 </head>
 <body {% block bodytag %}{% endblock%}>
   <a href="{% url 'index' %}">Index</a>
   {% if request.user.is_authenticated %}
   <!-- If logged in -->
-    <a href="{% url 'viewbookmarks' %}">View Bookmarks</a>
+  <a href="{% url 'index' %}yourbookmarks/{{ user }}">View Your Bookmarks</a>
     <a href="{% url 'addbookmark' %}">Create new Bookmark</a>
     <a href="{% url 'logout' %}">Logout</a>
   {% else  %}
@@ -16,7 +19,9 @@
     <a href="{% url 'signup' %}">Sign up</a>
     <a href="{% url 'login' %}">Login</a>
   {% endif %}
+  <div class='container'>
   {% block content %}
   {% endblock %}
+</div>
 </body>
 </html>

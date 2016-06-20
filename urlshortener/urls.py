@@ -23,7 +23,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', ViewIndex.as_view(), name='index'),
     url(r'^signup/$', SignUpView.as_view(), name='signup'),
-    url(r'^userbookmarks/$', ViewBookmark.as_view(), name='viewbookmarks'),
+    url(r'^yourbookmarks/(?P<pk>\w+)/$', ViewBookmark.as_view(), name='viewbookmarks'),
     url(r'^makebookmark/$', AddBookmark.as_view(), name='addbookmark'),
     url(r'^logout/$', logout, name='logout'),
     url(r'^login/$', login, name='login'),
