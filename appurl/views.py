@@ -39,8 +39,9 @@ class ViewBookmark(TemplateView):
     template_name = "bookmarks.html"
 
     def get_context_data(self, **kwargs):
-        user = self.request.user
         context = super().get_context_data(**kwargs)
+        user_id = self.kwargs['pk']
+        user = User.objects.get(username=user_id)
         context['bookmark'] = Bookmark.objects.filter(user=user)
         return context
 
